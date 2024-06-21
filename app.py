@@ -14,19 +14,12 @@ def generate_response(user_input):
     # Append user message to the session state
     st.session_state["messages"].append({"role": "user", "content": user_input})
 
-    # Call OpenAI's Chat Completion API
-    # response = openai.ChatCompletion.create(
-    #     model="gpt-3.5-turbo",
-    #     messages=st.session_state["messages"]
-    # )
-
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=st.session_state["messages"]
     )
 
     # Extract the assistant's reply
-    # assistant_message = response["choices"][0]["message"]["content"]
     assistant_message = response.choices[0].message.content
     
     # Append assistant message to the session state
@@ -38,7 +31,6 @@ user_input = st.text_input("You: ", "")
 
 if user_input:
     response = generate_response(user_input)
-    # st.write("Bot: " + response)
 
     for message in st.session_state["messages"]:
         role = "User" if message["role"] == "user" else "Bot"
